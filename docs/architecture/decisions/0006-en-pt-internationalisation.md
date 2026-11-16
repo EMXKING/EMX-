@@ -8,6 +8,7 @@ Date: 2026-11-16
 - **2026-11-16 (initial draft):** recorded Portuguese (`pt`) and English (`en`) as two equal locales with the default undecided.
 - **2026-11-16 (correction by the project owner):** English (`en`) is the official primary, default and canonical language; Portuguese (`pt`) is the secondary supported language. The file was renamed from `0006-pt-en-internationalisation.md` to put English first.
 - **2026-11-16 (closing decisions by the project owner):** closed the remaining open details: Portuguese variant policy, pre-login persistence, Keycloak language passing, API language handling, missing-translation policy and profile persistence. See "Decisions".
+- **2026-11-16 (three further decisions by the project owner):** (a) emails, background notifications, scheduled messages and generated documents use the recipient's saved profile language, English if none (D7); (b) the frontend must explicitly set `Accept-Language`, the browser's native language must not override EMX, and localised API responses return `Content-Language` (D4); (c) the most recent explicit language selection wins over the saved profile and is saved after authentication (D8).
 
 ## Context
 Complete English and Portuguese support is a core requirement, not a later enhancement. English is the primary language and Portuguese is the secondary language.
@@ -53,10 +54,11 @@ Complete English and Portuguese support is a core requirement, not a later enhan
 
 ### D4. API language
 - The API uses the HTTP **`Accept-Language`** request header to localise user-facing messages (validation errors, error descriptions, notifications shown to the user). Matching considers supported tags and quality values; `pt`, `pt-PT` and `pt-BR` resolve to `pt`; anything unsupported or absent resolves to `en`.
-- The frontend sets `Accept-Language` explicitly from the user's selected language. It must not rely on the browser's own default header, because the browser's language must not decide the default.
-- The response states the language used with the `Content-Language` header.
+- **The frontend must explicitly set `Accept-Language`** on its API requests, from the currently selected EMX language (`en` or `pt`, as resolved by D8). It must not send, forward or rely on the browser's native language preference. The browser's language must never override EMX's English default or the user's explicit language selection. Whether an explicitly set header reliably replaces the browser's default in every supported browser is **not yet verified** and must be tested.
+- **Every API response that contains localised messages returns a `Content-Language` header** with the language actually used (`en` or `pt`). If the requested language is unsupported or absent, the API uses `en` and returns `Content-Language: en`.
+- Requests that the browser makes without script control (for example a direct download link) cannot carry the explicit header. How those are handled is an open question.
 - **Not localised:** API field names, endpoints, enumerations, error codes, translation keys, identifiers and audit event codes. These are English and stable. Clients use codes and keys, never message text.
-- **No request, no header:** emails, notifications and other background output use the recipient's saved profile language (D6), falling back to English.
+- **No request, no header:** emails, background notifications, scheduled messages and generated documents have no request to read a header from. They follow D7.
 
 ### D5. Missing translations
 - English fallback is allowed **only as a development safety mechanism**, so a developer sees something while working. It logs a warning.
@@ -67,14 +69,34 @@ Complete English and Portuguese support is a core requirement, not a later enhan
 
 ### D6. Persistence in the EMX user profile
 - After authentication, the user's language preference is **stored in their EMX user profile** (a column on the user record, holding a supported language code).
-- An **explicit user preference takes priority over the default**. English is used only when no explicit preference exists.
+- An **explicit user preference takes priority over the default**. English is used only when no explicit preference exists. Conflicts between explicit selections are resolved by D8.
 - A new account starts with `en`, unless the person explicitly chose Portuguese before or during sign-up, in which case that explicit choice is saved.
 - Changing the language in the application updates the profile and applies on every device.
 
-### Resolution order (frontend, proposed)
-1. The saved profile preference of the authenticated user, or a language the user explicitly selected during the current login visit (the most recent explicit choice wins and is then saved to the profile).
-2. The language stored in local storage from a previous explicit choice.
-3. English.
+### D7. Emails, background notifications and generated documents
+- This applies to **emails, background notifications, scheduled messages and generated user-facing documents**, where localisation is supported.
+- The language is the **recipient's saved language preference from their EMX user profile**. If no preference exists, the language is **English (`en`)**. This includes recipients who have no EMX user profile.
+- The language is resolved per recipient when the message or document is generated. One message is written in one language; there are no bilingual messages.
+- The language of the person who triggered the action, and any `Accept-Language` header, play no part, because background output has no request context.
+- Any output type that cannot yet be localised must be recorded as a known limitation in that feature's documentation.
+- Audit event codes and other identifiers remain English.
+
+### D8. Language preference conflicts
+Rule: **the most recent explicit user language selection takes precedence.** An explicit selection is a deliberate use of a language selector, on the login experience or inside the application.
+
+Before authentication the application shows the language in local storage, or English if none (D2). After successful authentication:
+
+1. If the user made an explicit selection during the current visit, that language becomes the active preference and is **saved to their EMX profile**, replacing the saved value.
+2. Otherwise the **saved profile preference is retained** and becomes active. Local storage is updated to match it.
+3. If the profile has no saved preference, the language in local storage (an earlier explicit choice) is used and saved; if there is none either, English is used.
+
+Example: English is saved in the profile. The user selects Portuguese on the login page and signs in. Portuguese becomes the active preference after successful authentication and is saved to the profile.
+
+Further rules:
+- The save happens only after successful authentication. If sign-in fails or is abandoned, the profile is unchanged.
+- A language change made inside the authenticated application is explicit, applies immediately and is saved to the profile.
+- If the same user changes language on two devices, the most recent explicit selection wins.
+- Whether a language chosen on a Keycloak-hosted page can be returned to the application, and therefore counted as an explicit selection, depends on Keycloak behaviour that is **not yet verified** (see D3).
 
 ## What "complete" means
 Every user-facing string in:

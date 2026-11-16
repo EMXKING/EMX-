@@ -32,7 +32,7 @@ The backend maps the token subject to an EMX user record and the user's active o
 
 ## Language and the login flow
 
-The application passes the user's selected language to Keycloak with the OIDC `ui_locales` parameter so the login pages open in that language, and the login experience offers a language selector ([ADR-0006](../architecture/decisions/0006-en-pt-internationalisation.md), D3). First-time visitors see English. After authentication the language preference is saved in the EMX user profile and takes priority over the default. The `ui_locales` behaviour is **not yet verified** against any Keycloak version. Language preference is not a security claim: the backend never uses it for authorisation or tenant decisions.
+The application passes the user's selected language to Keycloak with the OIDC `ui_locales` parameter so the login pages open in that language, and the login experience offers a language selector ([ADR-0006](../architecture/decisions/0006-en-pt-internationalisation.md), D3). First-time visitors see English. After successful authentication the language preference is saved in the EMX user profile. The most recent explicit language selection wins: a language chosen on the login page replaces a different saved value, and without an explicit selection the saved profile preference is kept (D8). Emails and background output use the recipient's saved profile language, or English if none (D7). The frontend sets `Accept-Language` explicitly, and the browser's native language never overrides EMX (D4). The `ui_locales` behaviour is **not yet verified** against any Keycloak version. Language preference is not a security claim: the backend never uses it for authorisation or tenant decisions.
 
 ## Token storage in the browser
 

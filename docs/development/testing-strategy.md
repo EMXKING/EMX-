@@ -33,8 +33,11 @@ These suites gate every merge once they exist.
 - English fallback is disabled in test and production builds, so a missing key fails rather than silently showing English.
 - The language is stored in local storage before login, and English is shown when nothing is stored, regardless of browser language.
 - The selected language is passed to Keycloak through `ui_locales` (to be verified against the selected Keycloak version).
-- The API localises user-facing messages from `Accept-Language` (`pt`, `pt-PT` and `pt-BR` resolve to `pt`; unsupported or absent resolves to `en`) and returns `Content-Language`. Field names, codes and identifiers stay English.
+- The API localises user-facing messages from `Accept-Language` (`pt`, `pt-PT` and `pt-BR` resolve to `pt`; unsupported or absent resolves to `en`) and returns `Content-Language` on every localised response. Field names, codes and identifiers stay English.
+- The frontend sets `Accept-Language` explicitly from the selected EMX language on every request. A browser configured for Portuguese does not change the English default or override an explicit selection (to be verified in the supported browsers).
 - After login the language is saved in the user profile, and an explicit preference wins over the default.
+- Conflict rule: English saved, Portuguese selected on the login page, successful sign-in leaves Portuguese active and saved. With no explicit selection the saved profile preference is retained. A failed or abandoned sign-in leaves the profile unchanged. The most recent explicit selection wins across two devices.
+- Emails, background notifications, scheduled messages and generated documents use the recipient's saved language, and English when no preference or profile exists. Each message is in one language.
 - No hardcoded user-visible text in components.
 - First-time visitors and new accounts see English by default, regardless of browser language.
 - The language selector works on the login page and throughout the authenticated application.

@@ -26,12 +26,12 @@ Tenant isolation is built and proven **before** any business module.
 3. OIDC token validation and tenant context guard, with the authentication test suite.
 4. Authorisation guard, deny by default, with the authorisation test suite.
 5. Audit log, append-only and tenant-scoped, with its test suite.
-6. API i18n: stable English error codes and keys, resolved in the user's selected language (English by default).
+6. API i18n: stable English error codes and keys, localised from `Accept-Language` with `Content-Language` returned on localised responses. Emails, background notifications, scheduled messages and generated documents use the recipient's saved profile language (English if none).
 
 ## Stage 4: Frontend skeleton (blocked)
 1. Vite + React + TypeScript project.
 2. Real OIDC login against Keycloak. No simulated login.
-3. i18next with English (`en`, default and canonical) and Portuguese (`pt`). Language selector on the login page and throughout the authenticated app, one language displayed at a time, choice stored in local storage before login and in the user profile after authentication, selected language passed to Keycloak through `ui_locales` (after verification), `Accept-Language` sent to the API, and an `en`/`pt` key parity check that fails CI.
+3. i18next with English (`en`, default and canonical) and Portuguese (`pt`). Language selector on the login page and throughout the authenticated app, one language displayed at a time, choice stored in local storage before login and in the user profile after authentication, selected language passed to Keycloak through `ui_locales` (after verification), `Accept-Language` set explicitly by the frontend on API requests (never the browser's native preference), the most recent explicit selection winning over the saved profile and being saved after authentication, and an `en`/`pt` key parity check that fails CI.
 4. A real screen reading real data from the API.
 
 ## Stage 5: First business modules (blocked)

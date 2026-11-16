@@ -28,6 +28,9 @@ Status: applies from the first line of application code. Not yet enforced by too
 - English fallback is a development convenience only. A missing Portuguese translation is a defect, CI fails on it, and production must not contain incomplete translations or mixed-language screens.
 - Only one language is displayed at a time. The language selector works on the login page and throughout the authenticated application, and the choice is persisted.
 - API errors return stable English codes and keys.
+- The frontend sets the `Accept-Language` header explicitly from the currently selected EMX language on every API request. It never relies on the browser's native language preference. Localised API responses return `Content-Language`.
+- Emails, background notifications, scheduled messages and generated user-facing documents use the recipient's saved profile language, or English if none. They are written in one language per message.
+- The most recent explicit language selection wins over the saved profile preference and is saved after successful authentication. Without an explicit selection the saved profile preference is kept.
 
 ## Git workflow
 

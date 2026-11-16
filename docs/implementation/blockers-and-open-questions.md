@@ -33,15 +33,18 @@ Closed by the project owner on 2026-11-16 ([ADR-0006](../architecture/decisions/
 | Portuguese variant | Neutral international `pt`; structure extensible to `pt-PT` and `pt-BR` later |
 | Pre-login persistence | Browser local storage; English for first-time visitors regardless of browser language |
 | Keycloak | Selected language passed with OIDC `ui_locales`; selector on the login experience; **subject to verification** |
-| API language | HTTP `Accept-Language` for user-facing messages; identifiers, field names and codes stay English |
+| API language | HTTP `Accept-Language` for user-facing messages, **set explicitly by the frontend** from the selected EMX language, never from the browser's native preference; localised responses return `Content-Language`; identifiers, field names and codes stay English |
+| Emails and background output | Emails, background notifications, scheduled messages and generated documents use the recipient's saved profile language, English if none **(resolved 2026-11-16)** |
 | Missing translations | English fallback for development only; missing Portuguese is a defect; CI fails; no incomplete or mixed-language production releases |
 | After login | Language preference saved in the EMX user profile; explicit preference beats the default |
+| Preference conflicts | The most recent explicit selection wins and is saved after successful authentication; without an explicit selection the saved profile preference is retained **(resolved 2026-11-16)** |
 
 Still open:
 
 7. Internationalisation items that remain:
    - **Verify Keycloak behaviour** against the selected version: that `ui_locales` is honoured, that realm locales for `en` and `pt` are configurable, that the login selector works, and how a language chosen on a Keycloak page returns to the application.
-   - **Conflict rule:** if the saved profile language differs from a language explicitly chosen on the login page during the current visit, ADR-0006 proposes that the most recent explicit choice wins and is then saved. Please confirm.
+   - **Conflict rule and Keycloak:** the conflict rule is resolved (ADR-0006, D8). Whether a language chosen on a Keycloak-hosted page can be returned to the application, and so counted as an explicit selection, depends on the unverified Keycloak behaviour above.
+   - **`Accept-Language` in browsers:** verify that an explicitly set header replaces the browser's default in the supported browsers, and decide how browser requests that scripts cannot control (for example direct download links) carry the language.
    - **Portuguese review:** who reviews and approves the neutral Portuguese glossary and translations, and when is the style guide written?
 
 ### Technology decisions still open
