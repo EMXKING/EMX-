@@ -14,7 +14,7 @@ Keycloak is the only identity provider. The frontend uses OIDC Authorization Cod
 - The backend verifies signature (against Keycloak's published keys), issuer, audience and expiry on every request.
 - Keycloak handles authentication; EMX authorises. Business permissions are evaluated in the backend (see [ADR-0009](0009-authn-authz-audit-architecture.md)).
 - The realm is exported as configuration into the repository with **no secrets or credentials**. Client secrets and admin credentials come from environment configuration.
-- Keycloak login pages must be available in English (the default) and Portuguese, with a language selector on the login page, showing one language at a time ([ADR-0006](0006-en-pt-internationalisation.md)).
+- Keycloak login pages must be available in English (the default) and Portuguese, with a language selector on the login page, showing one language at a time. The application passes the selected language with the standard OIDC `ui_locales` parameter, subject to verification against the selected Keycloak version ([ADR-0006](0006-en-pt-internationalisation.md), decision D3).
 
 ## Proposed realm model (needs confirmation)
 A single EMX realm, with the user's organisation membership carried in a token claim that the backend maps to `organisation_id`. The alternative, one realm per organisation, gives stronger identity separation but adds operational cost. Keycloak also has an Organizations capability in recent versions. Which approach fits must be checked against the Keycloak version chosen before this is finalised. The backend must never trust an organisation identifier sent by the client.

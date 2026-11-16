@@ -31,7 +31,7 @@ Tenant isolation is built and proven **before** any business module.
 ## Stage 4: Frontend skeleton (blocked)
 1. Vite + React + TypeScript project.
 2. Real OIDC login against Keycloak. No simulated login.
-3. i18next with English (`en`, default and canonical) and Portuguese (`pt`). Language selector on the login page and throughout the authenticated app, one language displayed at a time, choice persisted, and an `en`/`pt` key parity check in CI.
+3. i18next with English (`en`, default and canonical) and Portuguese (`pt`). Language selector on the login page and throughout the authenticated app, one language displayed at a time, choice stored in local storage before login and in the user profile after authentication, selected language passed to Keycloak through `ui_locales` (after verification), `Accept-Language` sent to the API, and an `en`/`pt` key parity check that fails CI.
 4. A real screen reading real data from the API.
 
 ## Stage 5: First business modules (blocked)

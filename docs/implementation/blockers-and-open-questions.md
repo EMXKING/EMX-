@@ -25,12 +25,24 @@ Application implementation does not begin until B1 to B4 are resolved.
 6. How are platform-level administrators across organisations handled and audited?
 
 ### Internationalisation
-Resolved by the project owner on 2026-11-16: English (`en`) is the primary, default and canonical language; Portuguese (`pt`) is the secondary supported language ([ADR-0006](../architecture/decisions/0006-en-pt-internationalisation.md)). The default language and the fallback to English are therefore no longer open.
+Closed by the project owner on 2026-11-16 ([ADR-0006](../architecture/decisions/0006-en-pt-internationalisation.md)):
 
-7. Which Portuguese variant is the target for `pt` (European, Brazilian, other)?
-   - Where is the language choice stored in the browser before login, and how is it passed to the Keycloak login page (for example the OIDC `ui_locales` parameter, to be checked against the chosen Keycloak version)?
-   - How does the API receive the language for a request, given that persisted user preference comes first and English is the default?
-   - Is the English fallback for a missing translation acceptable as a safety net (treated as a defect), given that only one language is displayed at a time?
+| Topic | Decision |
+|-------|----------|
+| Primary language | English (`en`) is primary, default and canonical; Portuguese (`pt`) is secondary |
+| Portuguese variant | Neutral international `pt`; structure extensible to `pt-PT` and `pt-BR` later |
+| Pre-login persistence | Browser local storage; English for first-time visitors regardless of browser language |
+| Keycloak | Selected language passed with OIDC `ui_locales`; selector on the login experience; **subject to verification** |
+| API language | HTTP `Accept-Language` for user-facing messages; identifiers, field names and codes stay English |
+| Missing translations | English fallback for development only; missing Portuguese is a defect; CI fails; no incomplete or mixed-language production releases |
+| After login | Language preference saved in the EMX user profile; explicit preference beats the default |
+
+Still open:
+
+7. Internationalisation items that remain:
+   - **Verify Keycloak behaviour** against the selected version: that `ui_locales` is honoured, that realm locales for `en` and `pt` are configurable, that the login selector works, and how a language chosen on a Keycloak page returns to the application.
+   - **Conflict rule:** if the saved profile language differs from a language explicitly chosen on the login page during the current visit, ADR-0006 proposes that the most recent explicit choice wins and is then saved. Please confirm.
+   - **Portuguese review:** who reviews and approves the neutral Portuguese glossary and translations, and when is the style guide written?
 
 ### Technology decisions still open
 8. Database access layer (ORM, query builder or SQL-first) and migration tool. Both must support per-transaction RLS context and SQL policies.

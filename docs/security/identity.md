@@ -30,6 +30,10 @@ Invalid or missing tokens are rejected before any business logic runs.
 
 The backend maps the token subject to an EMX user record and the user's active organisation memberships. The organisation for a request comes from this verified mapping, never from client input. The realm layout (single realm versus realm per organisation) is proposed, not final; see ADR-0004.
 
+## Language and the login flow
+
+The application passes the user's selected language to Keycloak with the OIDC `ui_locales` parameter so the login pages open in that language, and the login experience offers a language selector ([ADR-0006](../architecture/decisions/0006-en-pt-internationalisation.md), D3). First-time visitors see English. After authentication the language preference is saved in the EMX user profile and takes priority over the default. The `ui_locales` behaviour is **not yet verified** against any Keycloak version. Language preference is not a security claim: the backend never uses it for authorisation or tenant decisions.
+
 ## Token storage in the browser
 
 The storage approach (in-memory versus other options) is a security decision still to be made. The default position is to avoid persistent token storage that scripts can read, and the choice will be recorded in an ADR before login is implemented.

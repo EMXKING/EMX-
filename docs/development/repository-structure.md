@@ -13,7 +13,7 @@ EMX-/
 │   │       └── modules/        one folder per business module
 │   └── web/                    React + TypeScript + Vite frontend
 │       └── src/
-│           └── locales/        en/ (canonical) and pt/ translation files by namespace
+│           └── locales/        en/ (canonical), pt/ (neutral); pt-PT/ and pt-BR/ may be added later as overrides
 ├── packages/                   shared TypeScript types and contracts (if needed)
 ├── db/
 │   └── migrations/             versioned SQL migrations, including RLS policies

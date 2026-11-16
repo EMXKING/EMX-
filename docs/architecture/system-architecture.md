@@ -36,7 +36,7 @@ All components run locally through Docker Compose for development. There is no p
 6. The service layer opens a database transaction and sets the organisation for that transaction (see [tenant isolation](../security/tenant-isolation.md)).
 7. Queries run under Row-Level Security. Cross-tenant rows are invisible even if application code is wrong.
 8. Security-relevant events are written to the audit log (see [audit logging](../security/audit-logging.md)).
-9. Error and validation messages are returned as stable English codes and translation keys plus the resolved text in the user's selected language, English by default (see [ADR-0006](decisions/0006-en-pt-internationalisation.md)).
+9. Error and validation messages are returned as stable English codes and translation keys plus text localised from the `Accept-Language` request header, which the frontend sets from the user's selected language; English is the default (see [ADR-0006](decisions/0006-en-pt-internationalisation.md)).
 
 ## Cross-cutting platform capabilities
 

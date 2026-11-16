@@ -19,7 +19,7 @@ An accepted ADR records a *decision*, not proof that the decision has been imple
 | [0003](0003-database-postgresql.md) | Database: PostgreSQL | Accepted |
 | [0004](0004-authentication-keycloak-oidc.md) | Authentication: Keycloak + OIDC/OAuth2 | Accepted (realm model Proposed) |
 | [0005](0005-infrastructure-docker-compose.md) | Infrastructure: Docker Compose | Accepted |
-| [0006](0006-en-pt-internationalisation.md) | Internationalisation: English primary, Portuguese secondary (i18next) | Accepted, revised 2026-11-16 (details Proposed) |
+| [0006](0006-en-pt-internationalisation.md) | Internationalisation: English primary, Portuguese secondary (i18next) | Accepted, revised 2026-11-16 (Keycloak `ui_locales` pending verification) |
 | [0007](0007-shared-schema-multitenancy.md) | Shared-schema multi-tenancy with organisation_id | Accepted |
 | [0008](0008-postgresql-row-level-security.md) | PostgreSQL Row-Level Security | Accepted |
 | [0009](0009-authn-authz-audit-architecture.md) | Authentication, authorisation and audit architecture | Proposed |

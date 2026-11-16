@@ -29,7 +29,12 @@ These suites gate every merge once they exist.
 
 ## Internationalisation tests
 
-- Every translation key exists in both `en` and `pt`.
+- Every translation key exists in both `en` and `pt`. CI **fails** on any missing key or key present in only one language, and a release is blocked by it.
+- English fallback is disabled in test and production builds, so a missing key fails rather than silently showing English.
+- The language is stored in local storage before login, and English is shown when nothing is stored, regardless of browser language.
+- The selected language is passed to Keycloak through `ui_locales` (to be verified against the selected Keycloak version).
+- The API localises user-facing messages from `Accept-Language` (`pt`, `pt-PT` and `pt-BR` resolve to `pt`; unsupported or absent resolves to `en`) and returns `Content-Language`. Field names, codes and identifiers stay English.
+- After login the language is saved in the user profile, and an explicit preference wins over the default.
 - No hardcoded user-visible text in components.
 - First-time visitors and new accounts see English by default, regardless of browser language.
 - The language selector works on the login page and throughout the authenticated application.

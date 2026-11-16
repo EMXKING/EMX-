@@ -24,6 +24,8 @@ Status: applies from the first line of application code. Not yet enforced by too
 - No hardcoded user-visible strings. Use translation keys and namespaces per module.
 - English (`en`) is the primary and default language and the source for translation; Portuguese (`pt`) is the secondary language.
 - Every key must exist in both `en` and `pt` in the same change. A feature is not complete until both are complete.
+- Portuguese (`pt`) is neutral international Portuguese; avoid unnecessary regional expressions. Keep the structure extensible for future `pt-PT` and `pt-BR`.
+- English fallback is a development convenience only. A missing Portuguese translation is a defect, CI fails on it, and production must not contain incomplete translations or mixed-language screens.
 - Only one language is displayed at a time. The language selector works on the login page and throughout the authenticated application, and the choice is persisted.
 - API errors return stable English codes and keys.
 
