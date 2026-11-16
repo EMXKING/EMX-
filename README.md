@@ -34,7 +34,7 @@ Module boundaries are described in [Modular monolith](docs/architecture/modular-
 | Backend | NestJS + TypeScript |
 | Database | PostgreSQL |
 | Authentication | Keycloak with OIDC / OAuth2 |
-| Internationalisation | i18next, Portuguese (`pt`) and English (`en`) |
+| Internationalisation | i18next. English (`en`) is the primary and default language; Portuguese (`pt`) is the secondary supported language |
 | Infrastructure | Docker Compose |
 | Architecture | Modular monolith |
 
@@ -45,7 +45,13 @@ The stack is fixed. Changes require a new Architecture Decision Record.
 - **Real functionality only.** No mock dashboards, simulated login or hardcoded business data standing in for PostgreSQL.
 - **Multi-tenancy.** PostgreSQL shared schema with `organisation_id` on every business table, strict backend authorisation and Row-Level Security. Tenant isolation is designed and proven before any business module is built.
 - **Security.** Keycloak is the only identity provider. Secrets are never committed.
-- **Complete Portuguese and English.** Every user-facing string, in the interface, API messages, validation errors, emails and login pages, must be available in `pt` and `en`, with switching at runtime.
+- **English primary, Portuguese fully supported.** English (`en`) is the official primary language and the default for first-time visitors and new accounts. Portuguese (`pt`) is the secondary language and is fully supported.
+  - A language selector lets users switch between English and Portuguese on the login page and throughout the authenticated application.
+  - Only one language is displayed at a time.
+  - The selected language is persisted.
+  - Every user-facing string (interface, API messages, validation errors, emails and login pages) exists in both languages. No new feature is complete until its English and Portuguese translations are complete.
+  - English is the canonical language for technical documentation, API terminology, system identifiers and default system messages.
+  - Details: [ADR-0006](docs/architecture/decisions/0006-en-pt-internationalisation.md).
 - **No public deployment and no paid services** without explicit approval.
 
 ## Documentation map

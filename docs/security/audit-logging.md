@@ -29,7 +29,7 @@ A trustworthy record of who did what, when, in which organisation and with what 
 | Details | Structured, with sensitive values excluded or masked |
 | Request correlation id | Links related records |
 
-Event codes are locale-independent so records stay readable in both `pt` and `en`; display text is produced at read time.
+Event codes are English, stable and language-independent, so records stay readable in both English and Portuguese; display text is produced at read time in the viewer's selected language.
 
 ## Integrity
 

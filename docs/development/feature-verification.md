@@ -32,6 +32,6 @@ Everything in this repository is **Designed**. No code is implemented, no test h
 - Unit and integration tests passing against real PostgreSQL where relevant
 - Tenant isolation test and authorisation test for the feature
 - Audit events emitted and tested
-- `pt` and `en` translations complete and checked
+- English (`en`) and Portuguese (`pt`) translations complete and checked. A feature without both is not complete.
 - No secrets, no hardcoded business data, no simulated behaviour
 - Documentation updated

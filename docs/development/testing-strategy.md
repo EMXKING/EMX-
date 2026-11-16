@@ -29,10 +29,13 @@ These suites gate every merge once they exist.
 
 ## Internationalisation tests
 
-- Every translation key exists in `pt` and `en`.
+- Every translation key exists in both `en` and `pt`.
 - No hardcoded user-visible text in components.
-- API errors resolve in both locales.
-- Locale switching works at runtime and persists.
+- First-time visitors and new accounts see English by default, regardless of browser language.
+- The language selector works on the login page and throughout the authenticated application.
+- Only one language is displayed at a time on each screen.
+- The selected language persists across sessions and is applied after sign-in.
+- API errors resolve in both languages; error codes and identifiers stay in English.
 
 ## Test data
 

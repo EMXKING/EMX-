@@ -2,7 +2,7 @@
 
 Status: **Plan. Stage 0 (documentation) is the only stage in progress. Stages 1 and later are blocked** until the items in [blockers](blockers-and-open-questions.md) are resolved.
 
-Phase 1 goal: a real, tenant-isolated foundation with real Keycloak login and complete `pt`/`en` support, plus the first real business modules. Every stage ends with tests and an honest verification status ([rules](../development/feature-verification.md)).
+Phase 1 goal: a real, tenant-isolated foundation with real Keycloak login and complete English and Portuguese support (English is the primary and default language), plus the first real business modules. Every stage ends with tests and an honest verification status ([rules](../development/feature-verification.md)).
 
 ## Stage 0: Documentation (in progress)
 README, architecture, ADRs, security, development and implementation documents. Owner review of ADRs and open questions.
@@ -26,12 +26,12 @@ Tenant isolation is built and proven **before** any business module.
 3. OIDC token validation and tenant context guard, with the authentication test suite.
 4. Authorisation guard, deny by default, with the authorisation test suite.
 5. Audit log, append-only and tenant-scoped, with its test suite.
-6. API i18n: error codes and keys resolved per locale.
+6. API i18n: stable English error codes and keys, resolved in the user's selected language (English by default).
 
 ## Stage 4: Frontend skeleton (blocked)
 1. Vite + React + TypeScript project.
 2. Real OIDC login against Keycloak. No simulated login.
-3. i18next with `pt` and `en`, runtime language switch persisted per user, parity check in CI.
+3. i18next with English (`en`, default and canonical) and Portuguese (`pt`). Language selector on the login page and throughout the authenticated app, one language displayed at a time, choice persisted, and an `en`/`pt` key parity check in CI.
 4. A real screen reading real data from the API.
 
 ## Stage 5: First business modules (blocked)
@@ -43,6 +43,6 @@ Enterprise Workflow Management, Purchase Approvals, Enterprise Risk Management, 
 
 ## Exit criteria for Phase 1
 - Isolation, authentication, authorisation and audit suites pass in CI against real PostgreSQL and Keycloak.
-- Complete `pt`/`en` coverage for everything built so far.
+- Complete English and Portuguese coverage for everything built so far, with English as the default.
 - No mock data or simulated behaviour anywhere.
 - Documentation and ADRs up to date, with verification status stated honestly.

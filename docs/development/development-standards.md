@@ -5,6 +5,7 @@ Status: applies from the first line of application code. Not yet enforced by too
 ## Language and code
 
 - TypeScript with `strict` enabled on frontend and backend. `any` requires a justification in review.
+- English is the canonical language for technical documentation, API terminology (endpoints, fields, enumerations, error codes), system identifiers (code, database tables and columns, permission names, audit event codes, translation keys) and default system messages.
 - Lint and format configuration is committed and run in CI (tools to be chosen).
 - Validate all external input at the boundary. Use parameterised queries only.
 - No business logic in controllers or React components beyond orchestration.
@@ -21,8 +22,10 @@ Status: applies from the first line of application code. Not yet enforced by too
 ## Internationalisation
 
 - No hardcoded user-visible strings. Use translation keys and namespaces per module.
-- Every key must exist in both `pt` and `en` in the same change.
-- API errors return stable codes and keys.
+- English (`en`) is the primary and default language and the source for translation; Portuguese (`pt`) is the secondary language.
+- Every key must exist in both `en` and `pt` in the same change. A feature is not complete until both are complete.
+- Only one language is displayed at a time. The language selector works on the login page and throughout the authenticated application, and the choice is persisted.
+- API errors return stable English codes and keys.
 
 ## Git workflow
 
@@ -37,7 +40,7 @@ Status: applies from the first line of application code. Not yet enforced by too
 - [ ] Tenant isolation considered; RLS and isolation test for any new table
 - [ ] Authorisation checks and permissions defined
 - [ ] Audit events defined for significant actions
-- [ ] `pt` and `en` strings complete
+- [ ] English (`en`, canonical) and Portuguese (`pt`) strings both complete
 - [ ] No secrets, no hardcoded business data
 - [ ] Docs and ADRs updated if a decision changed
 - [ ] Verification status stated honestly (see [feature verification](feature-verification.md))

@@ -25,7 +25,12 @@ Application implementation does not begin until B1 to B4 are resolved.
 6. How are platform-level administrators across organisations handled and audited?
 
 ### Internationalisation
-7. Which Portuguese variant is the target (European, Brazilian, other)? Default locale and fallback behaviour?
+Resolved by the project owner on 2026-11-16: English (`en`) is the primary, default and canonical language; Portuguese (`pt`) is the secondary supported language ([ADR-0006](../architecture/decisions/0006-en-pt-internationalisation.md)). The default language and the fallback to English are therefore no longer open.
+
+7. Which Portuguese variant is the target for `pt` (European, Brazilian, other)?
+   - Where is the language choice stored in the browser before login, and how is it passed to the Keycloak login page (for example the OIDC `ui_locales` parameter, to be checked against the chosen Keycloak version)?
+   - How does the API receive the language for a request, given that persisted user preference comes first and English is the default?
+   - Is the English fallback for a missing translation acceptable as a safety net (treated as a defect), given that only one language is displayed at a time?
 
 ### Technology decisions still open
 8. Database access layer (ORM, query builder or SQL-first) and migration tool. Both must support per-transaction RLS context and SQL policies.

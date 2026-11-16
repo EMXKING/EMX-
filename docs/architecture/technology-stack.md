@@ -11,7 +11,7 @@ Status: the items marked **Approved** were confirmed by the project owner. Every
 | Database | PostgreSQL | [0003](decisions/0003-database-postgresql.md) |
 | Authentication | Keycloak with OIDC / OAuth2 | [0004](decisions/0004-authentication-keycloak-oidc.md) |
 | Infrastructure | Docker Compose | [0005](decisions/0005-infrastructure-docker-compose.md) |
-| Internationalisation | i18next, `pt` and `en` | [0006](decisions/0006-pt-en-internationalisation.md) |
+| Internationalisation | i18next; English (`en`) primary and default, Portuguese (`pt`) secondary | [0006](decisions/0006-en-pt-internationalisation.md) |
 | Tenancy | Shared schema with `organisation_id` | [0007](decisions/0007-shared-schema-multitenancy.md) |
 | Tenant enforcement | PostgreSQL Row-Level Security | [0008](decisions/0008-postgresql-row-level-security.md) |
 | Auth architecture | Authentication, authorisation and audit | [0009](decisions/0009-authn-authz-audit-architecture.md) |
