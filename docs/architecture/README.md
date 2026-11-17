@@ -1,6 +1,6 @@
 # EMX Architecture
 
-Status: **Design. Nothing described here is implemented or verified.**
+Status: **Design, except the PostgreSQL tenant-isolation core, which is implemented and tested at the database level** (see [db/README.md](../../db/README.md) and [feature verification](../development/feature-verification.md)). The backend, frontend, Keycloak integration and Docker Compose environment are not implemented.
 
 | Document | Content |
 |----------|---------|

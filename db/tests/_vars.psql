@@ -1,0 +1,31 @@
+-- Synthetic identifiers used by the tests. None of this is real data.
+-- Organisations
+\set orgA  '00000000-0000-0000-0000-00000000000a'
+\set orgB  '00000000-0000-0000-0000-00000000000b'
+\set orgC  '00000000-0000-0000-0000-00000000000c'
+-- Users: alice (A only), bob (B only), carol (A and B), dave (only in suspended org C),
+--        erin (suspended membership in A), frank (suspended user, active member of A),
+--        newuser (does not exist until first login provisioning)
+\set alice   '00000000-0000-0000-0000-0000000000a1'
+\set bob     '00000000-0000-0000-0000-0000000000b1'
+\set carol   '00000000-0000-0000-0000-0000000000c1'
+\set dave    '00000000-0000-0000-0000-0000000000d1'
+\set erin    '00000000-0000-0000-0000-0000000000e1'
+\set frank   '00000000-0000-0000-0000-0000000000f1'
+\set newuser '00000000-0000-0000-0000-0000000000f2'
+-- Roles
+\set roleA1 '00000000-0000-0000-0001-0000000000a1'
+\set roleA2 '00000000-0000-0000-0001-0000000000a2'
+\set roleB1 '00000000-0000-0000-0001-0000000000b1'
+\set roleB2 '00000000-0000-0000-0001-0000000000b2'
+-- Memberships
+\set memAliceA '00000000-0000-0000-0002-0000000000a1'
+\set memCarolA '00000000-0000-0000-0002-0000000000a2'
+\set memErinA  '00000000-0000-0000-0002-0000000000a3'
+\set memFrankA '00000000-0000-0000-0002-0000000000a4'
+\set memBobB   '00000000-0000-0000-0002-0000000000b1'
+\set memCarolB '00000000-0000-0000-0002-0000000000b2'
+\set memDaveC  '00000000-0000-0000-0002-0000000000c1'
+-- Permissions (global catalogue)
+\set permRead   '00000000-0000-0000-0003-000000000001'
+\set permUpdate '00000000-0000-0000-0003-000000000002'

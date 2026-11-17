@@ -24,7 +24,15 @@ A feature can only be described with the highest status for which evidence exist
 
 ## Current status of the project
 
-Everything in this repository is **Designed**. No code is implemented, no test has run and no control is verified.
+| Area | Status | Evidence |
+|------|--------|----------|
+| PostgreSQL tenant-isolation core (schema, migrations, RLS, roles, privileges) | **Tested** at the database level | `db/tests/run.sh`: 166 checks passed on a disposable PostgreSQL 16.15 cluster, 2026-11-17. `db/tests/mutation_check.sh`: 6 of 6 deliberately broken controls were caught by the suite |
+| Tenant isolation end to end (backend guards, Keycloak identity, real client connections) | **Designed** | Backend and Keycloak do not exist yet |
+| Authentication, authorisation and audit in the backend | **Designed** | Not implemented |
+| Frontend, internationalisation, Keycloak `ui_locales`, `Accept-Language` handling | **Designed** | Not implemented. Keycloak behaviour is unverified |
+| Docker Compose environment | **Designed** | Docker daemon starts here, but image pulls are blocked |
+
+The database layer is **Tested**, not **Verified**: verification requires the same controls to be confirmed through the running backend with real Keycloak identity. One limitation is asserted and documented: arbitrary SQL executed as the application role can forge the tenant context ([db/README.md](../../db/README.md)).
 
 ## Definition of done (per feature)
 

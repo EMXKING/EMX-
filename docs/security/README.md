@@ -1,6 +1,6 @@
 # EMX Security
 
-Status: **Design. No security control described here is implemented or verified.** A control is only called "verified" when an automated test or a recorded manual check proves it (see [feature verification](../development/feature-verification.md)).
+Status: **Design, except the database-level tenant-isolation controls (Row-Level Security, roles and privileges), which are implemented and tested but not yet verified end to end** (see [tenant isolation](tenant-isolation.md)). No backend, authentication, authorisation or audit control is implemented. A control is only called "verified" when an automated test or a recorded manual check proves it (see [feature verification](../development/feature-verification.md)).
 
 | Document | Content |
 |----------|---------|

@@ -56,6 +56,14 @@ Still open:
 13. Background jobs, email delivery and observability.
 14. Token storage approach in the browser.
 
+### Raised by the database implementation (2026-11-17)
+18. **Tenant provisioning.** The application role cannot create organisations. Who creates a tenant, through what privileged path, and how is that audited? (Relates to question 6.)
+19. **Forged tenant context.** Arbitrary SQL run as the application role can set the organisation context directly (tested, documented). Is a stronger binding of the context to the session needed, beyond parameterised queries and a single data-access layer?
+20. **Existence side channels.** Globally unique user email and Keycloak subject, and foreign-key errors, can reveal that a value exists in another organisation. Acceptable, or should user identity be partitioned?
+21. **Visibility of a multi-organisation user's own memberships.** In an organisation context a user can still see their own membership rows and organisation names in other organisations, to choose between them. Confirm this is wanted.
+22. **Audit log table, `updated_at` maintenance, seeded permission codes and default roles per organisation** are not part of the first migrations. In which order should they follow?
+23. **Policy performance.** Not measured. Needs data volumes and a performance test before real use.
+
 ### Governance
 15. License for the repository.
 16. Retention, archival and tamper-evidence requirements for audit records.

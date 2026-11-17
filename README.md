@@ -4,8 +4,12 @@ EMX is an independent enterprise technology company building a universal enterpr
 
 This repository (`EMXKING/EMX-`) holds the platform source code and its engineering documentation.
 
-> **Development status: documentation and design phase.**
-> No application code exists yet. No dependency has been installed, no service has been started and no security control has been implemented or tested. Everything described in this repository is a **design** unless a document explicitly says it has been verified. See [Feature verification rules](docs/development/feature-verification.md).
+> **Development status: early implementation. Only the PostgreSQL tenant-isolation core exists.**
+> - **Implemented and tested at the database level:** the multi-tenant schema, migrations, Row-Level Security and the SQL security test suite, run against a disposable PostgreSQL 16 cluster. See [db/README.md](db/README.md).
+> - **Not started:** the NestJS backend, the React frontend, Keycloak integration and the Docker Compose environment. Network access for package installs and container images is still blocked, so none of these can be built or run yet.
+> - **Not verified end to end:** tenant isolation through the backend and real Keycloak identity.
+>
+> Everything else described in this repository is a **design** unless a document explicitly says otherwise. See [Feature verification rules](docs/development/feature-verification.md).
 
 ## First product: Enterprise Workflow + Risk + Compliance
 

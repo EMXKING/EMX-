@@ -20,4 +20,4 @@ PostgreSQL is the system of record for all business data. It is used for tenancy
 Other databases were not adopted because the stack was fixed by the project owner.
 
 ## Verification
-Not implemented. Not verified. No PostgreSQL server has been run for EMX.
+**Partly implemented and tested** (2026-11-17): the versioned SQL migrations, the owner and restricted application roles, and Row-Level Security run against a disposable PostgreSQL 16.15 cluster (`db/tests/run.sh`, 166 checks passed). See [db/README.md](../../../db/README.md). Not verified: the PostgreSQL container image and Docker Compose environment (image pulls are blocked), and use from the NestJS backend, which does not exist yet.

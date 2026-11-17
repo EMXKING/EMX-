@@ -8,7 +8,7 @@ An ADR records one significant decision, why it was made and what follows from i
 - **Proposed**: drafted, awaiting owner confirmation.
 - **Superseded**: replaced by a later ADR.
 
-An accepted ADR records a *decision*, not proof that the decision has been implemented or tested. Each ADR has a **Verification** section stating what, if anything, has been verified. At the time of writing, nothing has.
+An accepted ADR records a *decision*, not proof that the decision has been implemented or tested. Each ADR has a **Verification** section stating what, if anything, has been verified. At the time of writing, only the database-level parts of ADR-0003, ADR-0007 and ADR-0008 have been implemented and tested; everything else is unimplemented.
 
 ## Index
 

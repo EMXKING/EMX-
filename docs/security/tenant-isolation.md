@@ -1,6 +1,14 @@
 # Tenant Isolation
 
-Status: **Design only. Not implemented. Not verified.** Tenant isolation is the first thing to be built and proven, before any business module ([Phase 1 plan](../implementation/phase-1-plan.md)).
+Status: **Database layer implemented and tested (2026-11-17). Backend layer designed only. End-to-end isolation not verified.** Tenant isolation is the first thing to be built and proven, before any business module ([Phase 1 plan](../implementation/phase-1-plan.md)).
+
+| Layer | Status |
+|-------|--------|
+| 2. Database: Row-Level Security, roles, privileges, composite foreign keys | **Tested**: 166 checks passed on a disposable PostgreSQL 16.15 cluster; 6 of 6 deliberately broken controls were caught (`db/tests/run.sh`, `db/tests/mutation_check.sh`) |
+| 1. Backend authorisation (NestJS guards, token validation, tenant resolution) | **Designed**, not implemented |
+| Tenant context from a verified Keycloak identity | **Designed**, not implemented |
+
+Details of what the database layer does and does not guarantee: [db/README.md](../../db/README.md).
 
 Decisions: [ADR-0007](../architecture/decisions/0007-shared-schema-multitenancy.md), [ADR-0008](../architecture/decisions/0008-postgresql-row-level-security.md).
 
@@ -54,6 +62,30 @@ Either layer alone should prevent cross-tenant access. Both must be tested.
 
 These tests run against a real PostgreSQL instance, not a mock.
 
+### Result at the database level (2026-11-17)
+
+Every row of the table above that concerns the database is covered by `db/tests/`, except the two that need the backend:
+
+| Required test | Database-level result |
+|---------------|-----------------------|
+| User of A lists resources | Passed (`030`) |
+| User of A reads B's resource by id | Passed (`040`) |
+| User of A updates or deletes B's row | Passed (`050`) |
+| User of A inserts a row with B's `organisation_id` | Passed, refused by `WITH CHECK` (`050`) |
+| Query with no organisation context | Passed, zero rows (`020`) |
+| Application role attempts to bypass RLS | Passed (`080`) |
+| Pooled connection reused by a different tenant | Passed at the SQL level (`070`) |
+| Foreign key from A's row to B's row | Passed (`060`) |
+| New table without RLS | Catalog check passed (`010`); no CI pipeline yet |
+| Request supplies a different organisation id in header or body | **Not testable here**: needs the backend |
+
 ## Known limits
 
 Shared schema means a defect can affect many tenants, backups are not per tenant, and noisy tenants share resources. These are accepted trade-offs of the approved model.
+
+Limits found while implementing the database layer:
+
+- **Forged context.** Any session can set the transaction-local setting that carries the organisation. Code that can run arbitrary SQL as the application role can therefore read another organisation's data. RLS defends against missing filters and application bugs, not against that. The backend must use parameterised queries only, one data-access layer, and an identity from a verified token. This is asserted by a test so the documentation stays true.
+- **Existence side channels.** Unique and foreign-key checks bypass RLS by PostgreSQL design, so a globally unique value (such as a user's Keycloak subject or email) can reveal that it exists elsewhere. Identifiers are random UUIDs.
+- **A user's own cross-organisation data is visible to that user.** In an organisation-A context, a user who also belongs to B can see their own B membership row and B's name, so they can choose an organisation. Nothing else of B is visible.
+- **Tenant provisioning** (creating organisations) is not available to the application role and is not implemented.

@@ -12,13 +12,15 @@ README, architecture, ADRs, security, development and implementation documents. 
 2. `infra/docker-compose.yml` with PostgreSQL and Keycloak, pinned image versions, localhost-only ports, credentials from environment.
 3. Confirm both services start and are reachable. Record the result.
 
-## Stage 2: Tenancy core (blocked)
+## Stage 2: Tenancy core (database part DONE and tested; backend parts blocked)
 Tenant isolation is built and proven **before** any business module.
-1. Migration tooling and the two database roles (owner and restricted application role).
-2. Core tables: organisations, users, memberships, roles, permissions, each with `organisation_id` where tenant-scoped, RLS enabled and forced.
-3. Tenant-aware data access layer that sets the organisation per transaction.
-4. The full isolation test suite ([tenant isolation](../security/tenant-isolation.md)) passing against a real PostgreSQL.
-5. CI check that fails when a business table lacks RLS.
+1. **Done:** migration tooling (checksummed SQL migrations) and the two database roles (owner and restricted application role).
+2. **Done:** core tables (organisations, users, memberships, roles, permissions, role-permission and membership-role links) with `organisation_id` where tenant-scoped, RLS enabled and forced.
+3. Tenant-aware data access layer in NestJS that sets the organisation per transaction. **Blocked** (needs the backend). The database side, `emx.set_tenant_context`, is done.
+4. **Done at the database level:** the isolation test suite passes against a real PostgreSQL 16.15 (166 checks; `db/tests/run.sh`). Not yet repeated through the backend.
+5. **Partly done:** the catalog check that fails when a table lacks RLS exists (`db/tests/010_structure.sql`); no CI pipeline runs it yet.
+
+The database layer was built without network access, using the native PostgreSQL 16 binaries. See [db/README.md](../../db/README.md).
 
 ## Stage 3: Identity and platform kernel (blocked)
 1. Keycloak realm export (no secrets), clients and roles.

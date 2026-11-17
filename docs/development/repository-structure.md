@@ -1,6 +1,6 @@
 # Repository Structure
 
-Status: **Planned layout. Only `README.md` and `docs/` exist today.** Tooling choices (package manager, monorepo tool) are undecided.
+Status: **Planned layout. Today only `README.md`, `docs/`, `db/` and `.gitignore` exist; the rest is planned.** Tooling choices (package manager, monorepo tool) are undecided.
 
 ```
 EMX-/
@@ -15,13 +15,16 @@ EMX-/
 │       └── src/
 │           └── locales/        en/ (canonical), pt/ (neutral); pt-PT/ and pt-BR/ may be added later as overrides
 ├── packages/                   shared TypeScript types and contracts (if needed)
-├── db/
-│   └── migrations/             versioned SQL migrations, including RLS policies
+├── db/                         EXISTS: PostgreSQL layer, see db/README.md
+│   ├── bootstrap/              superuser setup: roles, database, schema
+│   ├── migrations/             versioned SQL migrations, including RLS policies
+│   ├── scripts/                bootstrap.sh and migrate.sh
+│   └── tests/                  SQL security tests, run.sh harness, mutation_check.sh
 ├── infra/
 │   ├── docker-compose.yml      local PostgreSQL and Keycloak
 │   └── keycloak/               realm export (no secrets)
 ├── .env.example                placeholders only
-└── .gitignore                  must exclude .env, build output, dependencies
+└── .gitignore                  EXISTS: excludes .env, build output, dependencies
 ```
 
 ## Rules

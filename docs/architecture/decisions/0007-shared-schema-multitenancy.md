@@ -21,4 +21,6 @@ All organisations share one PostgreSQL database and schema. Every business table
 Database-per-tenant and schema-per-tenant give stronger physical separation but higher operational cost. They were not chosen by the project owner.
 
 ## Verification
-Not implemented. Not verified. No isolation test exists yet.
+**Database layer: implemented and tested** (2026-11-17). Migrations `0001` to `0006` create the tenant-owned tables with `organisation_id NOT NULL` and composite foreign keys that include `organisation_id`. `db/tests/run.sh` passed 166 checks against a disposable PostgreSQL 16.15 cluster, including cross-tenant read, insert, update and delete attempts and link tables that try to join rows of different organisations. `db/tests/mutation_check.sh` confirmed the suite fails when a control is deliberately broken.
+
+**Not verified:** isolation through the NestJS backend and real Keycloak identity, which do not exist yet. Known limitations are listed in [db/README.md](../../../db/README.md).
